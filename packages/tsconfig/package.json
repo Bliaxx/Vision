@@ -1,0 +1,7 @@
+{
+  "name": "@dedale/tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Configurations TypeScript partagées du monorepo Dédale.",
+  "files": ["*.json"]
+}

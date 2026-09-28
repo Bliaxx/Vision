@@ -1,0 +1,31 @@
+{
+  "name": "dedale",
+  "private": true,
+  "description": "Dédale — la plateforme des histoires dont vous tenez le fil. Lire, écrire et publier des livres interactifs.",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "turbo run dev --filter=@dedale/api --filter=@dedale/web",
+    "dev:mobile": "pnpm --filter @dedale/mobile start",
+    "build": "turbo run build",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "test:e2e": "pnpm --filter @dedale/web test:e2e",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "format": "biome format --write .",
+    "db:up": "docker compose -f infra/docker-compose.yml up -d",
+    "db:down": "docker compose -f infra/docker-compose.yml down",
+    "db:generate": "pnpm --filter @dedale/api db:generate",
+    "db:migrate": "pnpm --filter @dedale/api db:migrate",
+    "db:seed": "pnpm --filter @dedale/api db:seed",
+    "tokens:build": "pnpm --filter @dedale/tokens build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "turbo": "2.11.5",
+    "typescript": "~6.0.3"
+  }
+}

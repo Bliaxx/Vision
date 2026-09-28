@@ -1,0 +1,27 @@
+{
+  "name": "@dedale/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Moteur narratif de Dédale : format de récit ouvert, langage d'expressions, balisage, exécution déterministe, analyse statique, simulation, export livre-jeu et import Twine.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./twee": "./src/import/twee.ts",
+    "./gamebook": "./src/export/gamebook.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "@vitest/coverage-v8": "^5.0.2",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

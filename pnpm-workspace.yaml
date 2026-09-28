@@ -1,0 +1,30 @@
+packages:
+  - apps/*
+  - packages/*
+
+# pnpm 10 n'exécute plus les scripts d'installation des dépendances par défaut :
+# on autorise explicitement ceux qui en ont besoin.
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - '@biomejs/biome'
+  - unrs-resolver
+
+catalog:
+  react: 19.2.3
+  react-dom: 19.2.3
+  '@types/react': ~19.2.2
+  '@types/react-dom': ~19.2.2
+  typescript: ~6.0.3
+  zod: ^4.6.5
+  vitest: ^5.0.2
+  '@orpc/client': ^1.15.4
+  '@orpc/contract': ^1.15.4
+  '@orpc/server': ^1.15.4
+  '@orpc/openapi': ^1.15.4
+  '@orpc/zod': ^1.15.4
+  '@orpc/tanstack-query': ^1.15.4
+  '@tanstack/react-query': ^5.104.0
+  better-auth: ^1.7.6
+  use-intl: ^4.14.7
+  '@types/node': ^22.19.0
