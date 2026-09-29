@@ -775,5 +775,34 @@
     "unused_item": "Item never used: {ref}",
     "missing_price": "A paid story needs a price",
     "missing_synopsis": "Add a synopsis to attract readers"
+  },
+  "mobile": {
+    "tabs": {
+      "discover": "Discover",
+      "search": "Search",
+      "library": "Library",
+      "profile": "Profile"
+    },
+    "greeting": "What will you read tonight?",
+    "offlineBanner": "Offline: your downloaded books remain readable.",
+    "networkError": "Can't reach Dédale. Check your connection.",
+    "download": "Keep offline",
+    "downloading": "Downloading…",
+    "downloaded": "Available offline",
+    "removeDownload": "Remove from device",
+    "downloads": "On this device",
+    "downloadsEmpty": "Keep a book offline to read it without a network, on the subway or on a plane.",
+    "searchHint": "A title, a theme, a mood…",
+    "appearance": "Appearance",
+    "reading": "Reading",
+    "haptics": "Haptic feedback",
+    "about": "About",
+    "version": "Version {version}",
+    "signInCta": "Sign in to sync your reading",
+    "signedInAs": "Signed in as {name}",
+    "continueReading": "Continue reading",
+    "readNow": "Read",
+    "chapterProgress": "{count, plural, one {# passage read} other {# passages read}}",
+    "sheetClose": "Close"
   }
 }

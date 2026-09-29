@@ -21,6 +21,7 @@ const config: NextConfig = {
     '@dedale/api-client',
     '@dedale/contracts',
     '@dedale/engine',
+    '@dedale/play',
     '@dedale/i18n',
     '@dedale/samples',
     '@dedale/tokens',

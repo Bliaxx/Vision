@@ -1,16 +1,16 @@
 'use client';
 
-import { type StoryInput, StorySchema } from '@dedale/engine';
+import { type EngineEvent, type StoryInput, StorySchema } from '@dedale/engine';
+import { useGame } from '@dedale/play';
 import { RotateCcw } from 'lucide-react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { useMemo } from 'react';
 import { EndingIcon } from '../story/badges';
 import { ChoiceList } from './choice-list';
 import { DiceResult } from './dice';
 import { PassageText } from './passage-text';
-import { useGame } from './use-game';
 
-function lastDice(events: ReturnType<typeof useGame>['events']) {
+function lastDice(events: readonly EngineEvent[]) {
   return [...events].reverse().find((event) => event.type === 'dice:rolled') ?? null;
 }
 
@@ -18,7 +18,8 @@ function lastDice(events: ReturnType<typeof useGame>['events']) {
 export function DemoReader({ input }: { input: StoryInput }) {
   const t = useTranslations();
   const story = useMemo(() => StorySchema.parse(input), [input]);
-  const game = useGame(story);
+  const locale = useLocale();
+  const game = useGame(story, { locale });
   const { view, events } = game;
   const dice = lastDice(events);
   const feedback = [...events].reverse().find((event) => event.type === 'test:resolved');

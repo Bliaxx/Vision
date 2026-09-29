@@ -775,5 +775,34 @@
     "unused_item": "Objet jamais utilisé : {ref}",
     "missing_price": "Un récit payant doit avoir un prix",
     "missing_synopsis": "Ajoutez un résumé pour donner envie"
+  },
+  "mobile": {
+    "tabs": {
+      "discover": "Découvrir",
+      "search": "Rechercher",
+      "library": "Bibliothèque",
+      "profile": "Profil"
+    },
+    "greeting": "Que lirez-vous ce soir ?",
+    "offlineBanner": "Hors ligne : vos livres téléchargés restent lisibles.",
+    "networkError": "Impossible de joindre Dédale. Vérifiez votre connexion.",
+    "download": "Garder hors ligne",
+    "downloading": "Téléchargement…",
+    "downloaded": "Disponible hors ligne",
+    "removeDownload": "Retirer de l'appareil",
+    "downloads": "Sur cet appareil",
+    "downloadsEmpty": "Gardez un livre hors ligne pour le lire sans réseau, dans le métro ou en avion.",
+    "searchHint": "Un titre, un thème, une ambiance…",
+    "appearance": "Apparence",
+    "reading": "Lecture",
+    "haptics": "Retours haptiques",
+    "about": "À propos",
+    "version": "Version {version}",
+    "signInCta": "Se connecter pour synchroniser vos lectures",
+    "signedInAs": "Connecté en tant que {name}",
+    "continueReading": "Reprendre la lecture",
+    "readNow": "Lire",
+    "chapterProgress": "{count, plural, one {# passage lu} other {# passages lus}}",
+    "sheetClose": "Fermer"
   }
 }

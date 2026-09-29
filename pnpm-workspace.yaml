@@ -10,6 +10,12 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - unrs-resolver
 
+# Une seule version de React dans tout le dépôt (un doublon casse les hooks,
+# en particulier sous React Native).
+overrides:
+  react: 19.2.3
+  react-dom: 19.2.3
+
 catalog:
   react: 19.2.3
   react-dom: 19.2.3

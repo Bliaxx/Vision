@@ -1,5 +1,3 @@
-'use client';
-
 import {
   type Action,
   act,
@@ -18,7 +16,6 @@ import {
   type Story,
   startSession,
 } from '@dedale/engine';
-import { useLocale } from 'next-intl';
 import { useMemo, useState } from 'react';
 
 export interface GameUpdate {
@@ -27,22 +24,27 @@ export interface GameUpdate {
   readonly reason: 'start' | 'action' | 'rewind' | 'restore';
 }
 
-function freshSession(story: CompiledStory, seed = randomSeed()) {
-  return startSession(story, seed);
+function freshSession(story: CompiledStory, seed?: number) {
+  return startSession(story, seed ?? randomSeed());
 }
 
 /**
  * État d'une partie côté client : le moteur est exécuté localement (lecture
  * instantanée, hors ligne possible), la persistance est déléguée à `onUpdate`.
  */
-export function useGame(
-  story: Story,
-  options: {
-    initialSave?: SaveData | null;
-    onUpdate?: (update: GameUpdate) => void;
-  } = {},
-) {
-  const locale = useLocale();
+export interface UseGameOptions {
+  /** Langue des libellés générés par le moteur (épreuves, combats…). */
+  readonly locale: string;
+  /** Partie à reprendre ; si elle est incompatible, une nouvelle partie commence. */
+  readonly initialSave?: SaveData | null;
+  /** Appelé après chaque changement : c'est là que la plateforme persiste. */
+  readonly onUpdate?: (update: GameUpdate) => void;
+  /** Graine imposée (tests, parties partagées). */
+  readonly seed?: number;
+}
+
+export function useGame(story: Story, options: UseGameOptions) {
+  const { locale } = options;
   const compiled = useMemo(() => compileStory(story), [story]);
 
   const [state, setState] = useState(() => {
@@ -54,9 +56,9 @@ export function useGame(
           events: [] as readonly EngineEvent[],
           restoredFailed: false,
         };
-      return { ...freshSession(compiled), restoredFailed: true };
+      return { ...freshSession(compiled, options.seed), restoredFailed: true };
     }
-    return { ...freshSession(compiled), restoredFailed: false };
+    return { ...freshSession(compiled, options.seed), restoredFailed: false };
   });
 
   const view = useMemo(
@@ -74,8 +76,8 @@ export function useGame(
       const update = act(compiled, state.session, action);
       commit({ ...update, reason: 'action' });
     } catch (error) {
+      // Action devenue invalide (double tap, choix verrouillé entre-temps) : ignorée.
       if (!(error instanceof EngineError)) throw error;
-      console.warn('action refusée', error.code);
     }
   };
 

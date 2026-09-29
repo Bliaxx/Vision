@@ -1,5 +1,5 @@
+import { coverArt } from '@dedale/tokens';
 import { cn } from '@/lib/cn';
-import { coverArt } from './cover-art';
 
 /**
  * Couverture d'un récit : image fournie par l'auteur, sinon couverture

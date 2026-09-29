@@ -1,7 +1,7 @@
 import { StorySchema } from '@dedale/engine';
 import { sampleStories } from '@dedale/samples';
+import { coverArt } from '@dedale/tokens';
 import { describe, expect, it } from 'vitest';
-import { coverArt } from '@/components/brand/cover-art';
 import { layoutStory } from '@/lib/story-layout';
 
 describe('couvertures génératives', () => {

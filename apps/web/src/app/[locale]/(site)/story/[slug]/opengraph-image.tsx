@@ -1,6 +1,5 @@
-import { brand, palette } from '@dedale/tokens';
+import { brand, coverArt, palette } from '@dedale/tokens';
 import { ImageResponse } from 'next/og';
-import { coverArt } from '@/components/brand/cover-art';
 import { publicApi } from '@/lib/api/server';
 import { BrandMark } from '@/lib/og/brand-mark';
 import { ogFonts } from '@/lib/og/fonts';

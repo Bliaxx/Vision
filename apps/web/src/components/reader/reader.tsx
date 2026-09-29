@@ -2,6 +2,7 @@
 
 import type { ReadingPackage } from '@dedale/contracts';
 import type { EngineEvent, Story } from '@dedale/engine';
+import { type GameUpdate, useGame } from '@dedale/play';
 import { useQuery } from '@tanstack/react-query';
 import {
   ArrowLeft,
@@ -33,7 +34,6 @@ import { PassageText } from './passage-text';
 import { PathMap } from './path-map';
 import { pickInitialSave, useReadingTracker, useSaveSync } from './persistence';
 import { ReaderSettings, readerStyle, useReaderPreferences } from './reader-settings';
-import { type GameUpdate, useGame } from './use-game';
 
 type Panel = 'sheet' | 'map' | 'rewind' | 'settings' | 'feedback' | null;
 
@@ -128,7 +128,7 @@ export function Reader({ pkg, signedIn, playtest = false, onExit }: ReaderProps)
     setSpeaking(false);
   };
 
-  const game = useGame(story, { initialSave, onUpdate });
+  const game = useGame(story, { locale, initialSave, onUpdate });
   const { view, session, events } = game;
 
   // Première lecture : compter le démarrage une fois.

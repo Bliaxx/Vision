@@ -1,4 +1,4 @@
-import { genreColors } from '@dedale/tokens';
+import { genreColors } from './colors';
 
 /**
  * Couvertures génératives : chaque récit reçoit un labyrinthe circulaire

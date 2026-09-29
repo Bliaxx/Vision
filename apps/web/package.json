@@ -18,6 +18,7 @@
     "@dedale/contracts": "workspace:*",
     "@dedale/engine": "workspace:*",
     "@dedale/i18n": "workspace:*",
+    "@dedale/play": "workspace:*",
     "@dedale/samples": "workspace:*",
     "@dedale/tokens": "workspace:*",
     "@tanstack/react-query": "catalog:",
