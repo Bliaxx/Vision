@@ -3,6 +3,7 @@
   "ui": "stream",
   "globalDependencies": [".env"],
   "globalEnv": ["NODE_ENV"],
+  "globalPassThroughEnv": ["HTTP_PROXY", "HTTPS_PROXY", "NO_PROXY", "NODE_EXTRA_CA_CERTS"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

@@ -16,6 +16,22 @@ overrides:
   react: 19.2.3
   react-dom: 19.2.3
 
+# Le plugin serveur de @better-auth/expo déclare les modules Expo comme pairs
+# obligatoires : sans cela, pnpm installerait React Native jusque dans l'API.
+# Seule l'app mobile les fournit réellement.
+# Chaque application garde ses propres variantes de pairs : sans cela, pnpm
+# unifie drizzle-orm sur la variante « expo-sqlite » de l'app mobile.
+dedupePeerDependents: false
+
+packageExtensions:
+  '@better-auth/expo':
+    peerDependenciesMeta:
+      expo-constants: { optional: true }
+      expo-linking: { optional: true }
+      expo-network: { optional: true }
+      expo-secure-store: { optional: true }
+      expo-web-browser: { optional: true }
+
 catalog:
   react: 19.2.3
   react-dom: 19.2.3

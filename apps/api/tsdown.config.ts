@@ -1,8 +1,9 @@
 import { defineConfig } from 'tsdown';
 
 /**
- * Bundle de production : les paquets internes (@dedale/*) sont intégrés, les
- * dépendances npm restent externes (installées dans l'image Docker).
+ * Bundle de production autonome : code interne et dépendances npm sont
+ * intégrés, l'image d'exécution n'a besoin que de Node.js (pas de node_modules).
+ * Seul `pino-pretty` (confort de développement) reste externe.
  */
 export default defineConfig({
   entry: {
@@ -16,5 +17,6 @@ export default defineConfig({
   outDir: 'dist',
   clean: true,
   sourcemap: true,
-  noExternal: [/^@dedale\//],
+  noExternal: [/^(?!pino-pretty$)/],
+  external: ['pino-pretty'],
 });

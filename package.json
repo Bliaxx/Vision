@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "turbo run dev --filter=@dedale/api --filter=@dedale/web",
-    "dev:mobile": "pnpm --filter @dedale/mobile start",
+    "dev:mobile": "pnpm --filter @dedale/mobile dev",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",

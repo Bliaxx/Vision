@@ -49,8 +49,9 @@ export function createContainer(env: Env, overrides: ContainerOverrides = {}) {
     (env.STRIPE_SECRET_KEY
       ? new StripePaymentGateway(env.STRIPE_SECRET_KEY, env.STRIPE_WEBHOOK_SECRET)
       : new FakePaymentGateway());
-  if (payments.name === 'fake' && env.NODE_ENV === 'production') {
-    throw new Error('STRIPE_SECRET_KEY est requis en production');
+  // Jamais de paiements simulés en production, sauf instance de démonstration déclarée.
+  if (payments.name === 'fake' && env.NODE_ENV === 'production' && !env.DEMO_MODE) {
+    throw new Error('STRIPE_SECRET_KEY est requis en production (ou DEMO_MODE=true)');
   }
   const museEngine =
     overrides.muse ??

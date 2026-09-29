@@ -29,8 +29,11 @@ const EnvSchema = z.object({
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
   ANTHROPIC_API_KEY: z.string().optional(),
   MUSE_MODEL: z.string().default('claude-opus-5-5'),
-  /** Active les parcours de paiement simulés (développement uniquement). */
-  FAKE_BILLING: booleanish.default(false),
+  /**
+   * Instance de démonstration (docker compose, préproduction) : autorise le
+   * prestataire de paiement simulé sur un build de production.
+   */
+  DEMO_MODE: booleanish.default(false),
   RATE_LIMIT_PER_MINUTE: z.coerce.number().int().default(120),
 });
 
@@ -43,9 +46,6 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): Env {
       .map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
       .join('\n');
     throw new Error(`Configuration invalide :\n${details}`);
-  }
-  if (result.data.NODE_ENV === 'production' && result.data.FAKE_BILLING) {
-    throw new Error('FAKE_BILLING est interdit en production');
   }
   return result.data;
 }

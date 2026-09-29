@@ -38,7 +38,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "style": {
         "useImportType": "error",
         "useExportType": "error",
@@ -61,7 +61,7 @@
         "useExhaustiveDependencies": "warn"
       },
       "a11y": {
-        "recommended": true,
+        "preset": "recommended",
         "noLabelWithoutControl": {
           "level": "error",
           "options": {

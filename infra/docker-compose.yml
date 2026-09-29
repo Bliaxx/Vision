@@ -1,0 +1,75 @@
+# Dédale en local.
+#
+#   Base seule (développement) :      docker compose -f infra/docker-compose.yml up -d
+#   Pile complète (API + site) :      docker compose -f infra/docker-compose.yml --profile app up --build
+#   Données de démonstration :        docker compose -f infra/docker-compose.yml --profile app run --rm api node dist/seed.mjs --reset
+#
+# Ports publiés configurables : POSTGRES_PORT, API_PORT, WEB_PORT.
+name: dedale
+
+x-api-env: &api-env
+  NODE_ENV: production
+  DATABASE_URL: postgres://dedale:dedale@postgres:5432/dedale
+  AUTH_SECRET: ${AUTH_SECRET:-demo-secret-a-remplacer-en-production-0123456789}
+  API_URL: http://localhost:${API_PORT:-4000}
+  WEB_URL: http://localhost:${WEB_PORT:-3000}
+  # Instance locale : paiements simulés et Muse hors ligne sans clés.
+  DEMO_MODE: 'true'
+  STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+  STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
+  ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: dedale
+      POSTGRES_PASSWORD: dedale
+      POSTGRES_DB: dedale
+    ports: ['${POSTGRES_PORT:-5432}:5432']
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U dedale -d dedale']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  migrate:
+    profiles: [app]
+    image: dedale/api:local
+    build:
+      context: ..
+      dockerfile: infra/docker/api.Dockerfile
+    command: ['node', 'dist/migrate.mjs']
+    environment: *api-env
+    depends_on:
+      postgres: { condition: service_healthy }
+
+  api:
+    profiles: [app]
+    image: dedale/api:local
+    environment: *api-env
+    ports: ['${API_PORT:-4000}:4000']
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+
+  web:
+    profiles: [app]
+    image: dedale/web:local
+    build:
+      context: ..
+      dockerfile: infra/docker/web.Dockerfile
+      args:
+        API_INTERNAL_URL: http://api:4000
+        NEXT_PUBLIC_SITE_URL: http://localhost:${WEB_PORT:-3000}
+    environment:
+      API_INTERNAL_URL: http://api:4000
+      NEXT_PUBLIC_SITE_URL: http://localhost:${WEB_PORT:-3000}
+    ports: ['${WEB_PORT:-3000}:3000']
+    depends_on:
+      api: { condition: service_healthy }
+
+volumes:
+  pgdata:
