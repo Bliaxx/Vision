@@ -1,0 +1,49 @@
+{
+  "name": "@dedale/api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "API de Dédale : monolithe modulaire hexagonal (Hono + oRPC + Drizzle + Better Auth).",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../../.env src/main.ts",
+    "build": "tsdown",
+    "start": "node dist/main.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx --env-file-if-exists=../../.env src/cli/migrate.ts",
+    "db:seed": "tsx --env-file-if-exists=../../.env src/cli/seed.ts --reset",
+    "db:studio": "drizzle-kit studio",
+    "openapi": "tsx src/http/openapi-export.ts",
+    "start:migrate": "node dist/migrate.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.129.0",
+    "@better-auth/expo": "^1.7.6",
+    "@dedale/contracts": "workspace:*",
+    "@dedale/engine": "workspace:*",
+    "@dedale/samples": "workspace:*",
+    "@hono/node-server": "^2.1.1",
+    "@orpc/contract": "catalog:",
+    "@orpc/openapi": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/zod": "catalog:",
+    "better-auth": "catalog:",
+    "drizzle-orm": "^0.45.3",
+    "hono": "^4.13.10",
+    "pino": "^10.3.1",
+    "postgres": "^3.4.9",
+    "stripe": "^22.6.2",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "drizzle-kit": "^0.31.11",
+    "pino-pretty": "^13.0.0",
+    "tsdown": "^0.23.0",
+    "tsx": "^4.23.15",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

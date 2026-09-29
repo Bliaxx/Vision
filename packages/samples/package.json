@@ -1,0 +1,23 @@
+{
+  "name": "@dedale/samples",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Récits de démonstration de Dédale (données de seed, démo interactive de la page d'accueil, tests de bout en bout).",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@dedale/engine": "workspace:*"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

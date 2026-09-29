@@ -1,0 +1,4 @@
+{
+  "extends": "@dedale/tsconfig/node.json",
+  "include": ["src", "test", "drizzle.config.ts", "tsdown.config.ts", "vitest.config.ts"]
+}

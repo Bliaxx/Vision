@@ -1,0 +1,27 @@
+{
+  "name": "@dedale/tokens",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Identité visuelle de Dédale : couleurs, typographies, espacements, rayons, ombres et mouvements, exportés en variables CSS (web) et en thème natif (React Native).",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": "./src/index.ts",
+    "./native": "./src/native.ts",
+    "./tokens.css": "./dist/tokens.css"
+  },
+  "scripts": {
+    "build": "tsx scripts/build-css.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "tsx": "^4.23.15",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

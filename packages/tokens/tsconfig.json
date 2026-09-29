@@ -1,0 +1,7 @@
+{
+  "extends": "@dedale/tsconfig/library.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["src", "scripts", "test"]
+}

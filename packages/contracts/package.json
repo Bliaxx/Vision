@@ -1,0 +1,25 @@
+{
+  "name": "@dedale/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Contrat d'API de Dédale (oRPC, contract-first) : procédures, schémas Zod et règles métier partagées (offres, droits).",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@dedale/engine": "workspace:*",
+    "@orpc/contract": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

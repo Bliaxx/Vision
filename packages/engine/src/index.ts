@@ -90,7 +90,7 @@ export {
   type Transition,
 } from './runtime/engine';
 export type { EngineEvent, EngineEventType } from './runtime/events';
-export { type RngState, randomSeed, seedRng } from './runtime/rng';
+export { nextFloat, type RngState, randomSeed, seedRng } from './runtime/rng';
 export {
   ActionSchema,
   act,

@@ -1,0 +1,20 @@
+{
+  "name": "@dedale/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Catalogues de traduction ICU (fr, en) partagés par le web (next-intl) et le mobile (use-intl).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./messages/*.json": "./messages/*.json"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

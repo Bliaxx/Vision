@@ -36,6 +36,7 @@ export interface SimulationReport {
   readonly coverage: number;
   readonly averageSteps: number;
   readonly averageWords: number;
+  /** Durée estimée d'une lecture menée jusqu'à une fin accomplie. */
   readonly estimatedMinutes: number;
   /** Part des parties terminées par une mort ou une défaite. */
   readonly failureRate: number;
@@ -83,6 +84,10 @@ export function simulate(story: CompiledStory, options: SimulationOptions = {}):
   let errors = 0;
   let totalSteps = 0;
   let totalWords = 0;
+  /** Parties menées à une fin « accomplie » (victoire ou fin secrète). */
+  let fulfilledRuns = 0;
+  let fulfilledWords = 0;
+  let fulfilledSteps = 0;
 
   for (let run = 0; run < runs; run++) {
     let state: GameState;
@@ -121,8 +126,14 @@ export function simulate(story: CompiledStory, options: SimulationOptions = {}):
     }
 
     for (const id of new Set(state.path)) passageVisits[id] = (passageVisits[id] ?? 0) + 1;
+    const runWords = state.path.reduce((sum, id) => sum + (wordsByPassage.get(id) ?? 0), 0);
     totalSteps += state.step;
-    totalWords += state.path.reduce((sum, id) => sum + (wordsByPassage.get(id) ?? 0), 0);
+    totalWords += runWords;
+    if (state.ending && (state.ending.kind === 'victory' || state.ending.kind === 'secret')) {
+      fulfilledRuns++;
+      fulfilledWords += runWords;
+      fulfilledSteps += state.step;
+    }
     if (outcome === 'completed' && state.ending) {
       completed++;
       endings[state.ending.passage] = (endings[state.ending.passage] ?? 0) + 1;
@@ -136,6 +147,11 @@ export function simulate(story: CompiledStory, options: SimulationOptions = {}):
   const averageSteps = totalSteps / played;
   const averageWords = totalWords / played;
   const failureRate = (endingKinds.death + endingKinds.defeat) / played;
+  // La durée affichée au lecteur est celle d'une lecture menée à son terme :
+  // les parties abandonnées ou écourtées par une mort précoce la sous-estimeraient.
+  const useFulfilled = fulfilledRuns >= Math.max(1, played * 0.05);
+  const readingWords = useFulfilled ? fulfilledWords / fulfilledRuns : averageWords;
+  const readingSteps = useFulfilled ? fulfilledSteps / fulfilledRuns : averageSteps;
   return {
     runs,
     completed,
@@ -150,7 +166,7 @@ export function simulate(story: CompiledStory, options: SimulationOptions = {}):
     averageWords: Math.round(averageWords),
     estimatedMinutes: Math.max(
       1,
-      Math.round(averageWords / wordsPerMinute + (averageSteps * 5) / 60),
+      Math.round(readingWords / wordsPerMinute + (readingSteps * 5) / 60),
     ),
     failureRate: Math.round(failureRate * 1000) / 1000,
     difficulty: difficultyFromFailureRate(failureRate),
