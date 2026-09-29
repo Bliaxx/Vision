@@ -67,9 +67,16 @@ ${declarations(schemeVariables('light'))}
 ${declarations(Object.fromEntries(Object.entries(readerThemes.paper).map(([k, v]) => [`reader-${kebab(k)}`, v])))}
 }
 
-:root[data-theme='dark'] {
+:root[data-theme='dark'],
+[data-theme='dark'] {
   color-scheme: dark;
 ${declarations(schemeVariables('dark'))}
+}
+
+/* Une section peut forcer un thème, quel que soit celui de la page. */
+[data-theme='light'] {
+  color-scheme: light;
+${declarations(schemeVariables('light'))}
 }
 
 @media (prefers-color-scheme: dark) {

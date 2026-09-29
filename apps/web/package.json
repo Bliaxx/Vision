@@ -1,0 +1,53 @@
+{
+  "name": "@dedale/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Site web de Dédale : vitrine, catalogue (SSR/SEO), liseuse, studio d'écriture et espace auteur.",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "^3.1.1",
+    "@dedale/api-client": "workspace:*",
+    "@dedale/contracts": "workspace:*",
+    "@dedale/engine": "workspace:*",
+    "@dedale/i18n": "workspace:*",
+    "@dedale/samples": "workspace:*",
+    "@dedale/tokens": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "@xyflow/react": "^12.12.0",
+    "better-auth": "catalog:",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "immer": "^10.2.0",
+    "lucide-react": "^1.48.0",
+    "motion": "^13.4.4",
+    "next": "16.3.6",
+    "next-intl": "^4.14.7",
+    "radix-ui": "^1.6.7",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "server-only": "^0.0.1",
+    "sonner": "^2.0.8",
+    "tailwind-merge": "^3.7.0",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "babel-plugin-react-compiler": "^1.0.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

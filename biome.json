@@ -61,7 +61,21 @@
         "useExhaustiveDependencies": "warn"
       },
       "a11y": {
-        "recommended": true
+        "recommended": true,
+        "noLabelWithoutControl": {
+          "level": "error",
+          "options": {
+            "inputComponents": [
+              "Input",
+              "Textarea",
+              "NativeSelect",
+              "Checkbox",
+              "ExpressionInput",
+              "TargetSelect",
+              "Switch"
+            ]
+          }
+        }
       }
     }
   },
@@ -92,6 +106,16 @@
         "rules": {
           "suspicious": {
             "noConsole": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.css"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noImportantStyles": "off"
           }
         }
       }

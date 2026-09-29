@@ -1,3 +1,4 @@
+import { IntlMessageFormat } from 'intl-messageformat';
 import { describe, expect, it } from 'vitest';
 import { messages, negotiateLocale } from '../src';
 
@@ -31,6 +32,17 @@ describe('catalogues de traduction', () => {
   it('utilisent les mêmes arguments ICU', () => {
     for (const [key, message] of fr) {
       expect(argumentsOf(en.get(key) ?? ''), key).toEqual(argumentsOf(message));
+    }
+  });
+
+  it('ne contiennent que des messages ICU valides', () => {
+    for (const [locale, catalog] of [
+      ['fr', fr],
+      ['en', en],
+    ] as const) {
+      for (const [key, message] of catalog) {
+        expect(() => new IntlMessageFormat(message, locale), `${locale}:${key}`).not.toThrow();
+      }
     }
   });
 

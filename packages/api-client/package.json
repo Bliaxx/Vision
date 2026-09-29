@@ -1,0 +1,28 @@
+{
+  "name": "@dedale/api-client",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Client typé de l'API Dédale (oRPC) et utilitaires TanStack Query, partagés par le web et le mobile.",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dedale/contracts": "workspace:*",
+    "@orpc/client": "catalog:",
+    "@orpc/contract": "catalog:",
+    "@orpc/tanstack-query": "catalog:"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0"
+  },
+  "devDependencies": {
+    "@dedale/tsconfig": "workspace:*",
+    "@tanstack/react-query": "catalog:",
+    "typescript": "catalog:"
+  }
+}

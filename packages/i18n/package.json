@@ -14,6 +14,7 @@
   },
   "devDependencies": {
     "@dedale/tsconfig": "workspace:*",
+    "intl-messageformat": "^11.2.15",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

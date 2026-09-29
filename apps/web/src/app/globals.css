@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "@dedale/tokens/tokens.css";
+
+/* Mode sombre piloté par l'attribut data-theme (préférence système par défaut). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Les utilitaires Tailwind pointent vers les variables de la marque : un seul
+ * jeu de classes (bg-surface, text-muted…) sert les thèmes clair et sombre.
+ */
+@theme inline {
+  --color-bg: var(--dd-background);
+  --color-surface: var(--dd-surface);
+  --color-raised: var(--dd-surface-raised);
+  --color-sunken: var(--dd-surface-sunken);
+  --color-line: var(--dd-border);
+  --color-line-strong: var(--dd-border-strong);
+  --color-ink: var(--dd-text);
+  --color-muted: var(--dd-text-muted);
+  --color-subtle: var(--dd-text-subtle);
+  --color-thread: var(--dd-accent);
+  --color-thread-hover: var(--dd-accent-hover);
+  --color-thread-soft: var(--dd-accent-soft);
+  --color-on-thread: var(--dd-on-accent);
+  --color-brass: var(--dd-brass);
+  --color-brass-soft: var(--dd-brass-soft);
+  --color-success: var(--dd-success);
+  --color-warning: var(--dd-warning);
+  --color-danger: var(--dd-danger);
+  --color-info: var(--dd-info);
+  --color-canvas: var(--dd-canvas);
+  --color-canvas-dot: var(--dd-canvas-dot);
+  --color-night: var(--dd-ink-950);
+  --color-night-2: var(--dd-ink-900);
+  --color-parchment: var(--dd-paper-200);
+
+  --color-ending-victory: var(--dd-ending-victory);
+  --color-ending-defeat: var(--dd-ending-defeat);
+  --color-ending-death: var(--dd-ending-death);
+  --color-ending-neutral: var(--dd-ending-neutral);
+  --color-ending-secret: var(--dd-ending-secret);
+
+  --font-display: var(--dd-font-display);
+  --font-reading: var(--dd-font-reading);
+  --font-sans: var(--dd-font-ui);
+  --font-accessible: var(--dd-font-accessible);
+  --font-dyslexia: var(--dd-font-dyslexia);
+  --font-mono: var(--dd-font-mono);
+
+  --radius-xs: var(--dd-radius-xs);
+  --radius-sm: var(--dd-radius-sm);
+  --radius-md: var(--dd-radius-md);
+  --radius-lg: var(--dd-radius-lg);
+  --radius-xl: var(--dd-radius-xl);
+
+  --shadow-paper: var(--dd-shadow-md);
+  --shadow-lift: var(--dd-shadow-lg);
+  --shadow-glow: var(--dd-shadow-glow);
+
+  --ease-thread: var(--dd-ease-thread);
+  --ease-standard: var(--dd-ease-standard);
+
+  --animate-rise: rise 520ms var(--dd-ease-thread) both;
+  --animate-fade: fade 320ms var(--dd-ease-standard) both;
+  --animate-thread: thread-draw 1200ms var(--dd-ease-thread) both;
+  --animate-roll: roll 700ms var(--dd-ease-thread) both;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes thread-draw {
+    from {
+      stroke-dashoffset: var(--thread-length, 1000);
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes roll {
+    0% {
+      transform: rotate(-120deg) scale(0.6);
+      opacity: 0;
+    }
+    60% {
+      transform: rotate(12deg) scale(1.08);
+      opacity: 1;
+    }
+    100% {
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--dd-background);
+    color: var(--dd-text);
+    font-family: var(--dd-font-ui);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--dd-accent);
+    color: var(--dd-on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--dd-focus);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--dd-font-display);
+    font-optical-sizing: auto;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  /* Grain de papier : SVG bruité très léger, uniquement sur les surfaces « page ». */
+  .paper-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Coin corné : signature des cartes de récit. */
+  .dog-ear {
+    clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 0 100%);
+  }
+
+  /* Colonne de lecture : typographie longue durée. */
+  .reading {
+    font-family: var(--reader-font, var(--dd-font-reading));
+    font-size: var(--reader-size, 1.1875rem);
+    line-height: var(--reader-leading, 1.75);
+    max-width: var(--dd-reading-measure);
+    font-optical-sizing: auto;
+    hyphens: auto;
+    font-variant-numeric: oldstyle-nums proportional-nums;
+  }
+  .reading p + p {
+    margin-top: 1em;
+  }
+  .reading blockquote {
+    border-left: 2px solid var(--dd-reader-accent);
+    padding-left: 1em;
+    font-style: italic;
+    color: var(--dd-reader-muted);
+    margin: 1.2em 0;
+  }
+  .reading h3 {
+    font-size: 1.35em;
+    margin: 1.2em 0 0.4em;
+  }
+  .reading hr {
+    border: 0;
+    height: 1.5em;
+    margin: 1.4em auto;
+    background:
+      radial-gradient(circle, var(--dd-reader-accent) 2px, transparent 3px) center / 1.5em 1.5em
+      repeat-x;
+    width: 4.5em;
+    opacity: 0.8;
+  }
+  /* Lettrine sur le premier paragraphe d'un passage. */
+  .reading .drop-cap::first-letter {
+    font-family: var(--dd-font-display);
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.85;
+    padding: 0.08em 0.1em 0 0;
+    color: var(--dd-reader-accent);
+    font-weight: 600;
+  }
+
+  .thread-underline {
+    background-image: linear-gradient(var(--dd-accent), var(--dd-accent));
+    background-size: 0% 2px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 260ms var(--dd-ease-thread);
+  }
+  .thread-underline:hover,
+  .thread-underline:focus-visible {
+    background-size: 100% 2px;
+  }
+
+  .eyebrow {
+    font-family: var(--dd-font-ui);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dd-accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
