@@ -20,7 +20,14 @@ export default async function EditorPage({ params }: PageProps<'/[locale]/studio
   try {
     const draft = await api.authoring.get({ id });
     // La clé force un éditeur neuf si l'on navigue d'un récit à l'autre.
-    return <StoryEditor key={draft.id} draft={draft} />;
+    return (
+      <StoryEditor
+        key={draft.id}
+        draft={draft}
+        advancedAnalytics={me?.entitlements.includes('author_analytics') ?? false}
+        privatePublishing={me?.entitlements.includes('private_publishing') ?? false}
+      />
+    );
   } catch (error) {
     const code = apiErrorCode(error);
     if (code === 'NOT_FOUND' || code === 'FORBIDDEN' || code === 'BAD_REQUEST') notFound();

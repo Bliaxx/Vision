@@ -256,7 +256,13 @@ function useHeatmap(enabled: boolean): ReadonlyMap<string, number> | null {
 
 type Pane = 'structure' | 'canvas' | 'passage';
 
-function EditorShell() {
+function EditorShell({
+  advancedAnalytics,
+  privatePublishing,
+}: {
+  advancedAnalytics: boolean;
+  privatePublishing: boolean;
+}) {
   const t = useTranslations('studio.editor');
   const ts = useTranslations('studio');
   const store = useEditorStore();
@@ -278,7 +284,8 @@ function EditorShell() {
   const [heatOn, setHeatOn] = useState(false);
   const [pane, setPane] = useState<Pane>('canvas');
   const published = status === 'published' || status === 'unlisted';
-  const heat = useHeatmap(heatOn && published);
+  const heatAvailable = published && advancedAnalytics;
+  const heat = useHeatmap(heatOn && heatAvailable);
 
   // Sur petit écran, choisir un passage dans la structure ouvre l'inspecteur.
   useEffect(() => {
@@ -353,12 +360,17 @@ function EditorShell() {
               <Redo2 />
             </Button>
           </Tooltip>
-          <Tooltip content={published ? t('heatmap') : t('heatmapEmpty')} side="bottom">
+          <Tooltip
+            content={
+              !published ? t('heatmapEmpty') : advancedAnalytics ? t('heatmap') : t('heatmapLocked')
+            }
+            side="bottom"
+          >
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setHeatOn((on) => !on)}
-              disabled={!published}
+              disabled={!heatAvailable}
               aria-pressed={heatOn}
               aria-label={t('heatmap')}
               className={cn(heatOn && 'text-thread')}
@@ -462,6 +474,7 @@ function EditorShell() {
         open={dialog === 'publish'}
         onOpenChange={(open) => setDialog(open ? 'publish' : null)}
         flush={flush}
+        privatePublishing={privatePublishing}
       />
       <ChecksDialog
         open={dialog === 'checks'}
@@ -473,11 +486,20 @@ function EditorShell() {
 }
 
 /** L'atelier : panneau de structure, carte du labyrinthe, inspecteur de passage. */
-export function StoryEditor({ draft }: { draft: Draft }) {
+export function StoryEditor({
+  draft,
+  advancedAnalytics,
+  privatePublishing,
+}: {
+  draft: Draft;
+  /** Droits de l'offre de l'auteur (l'API reste seule juge). */
+  advancedAnalytics: boolean;
+  privatePublishing: boolean;
+}) {
   return (
     <EditorProvider draft={draft}>
       <ReactFlowProvider>
-        <EditorShell />
+        <EditorShell advancedAnalytics={advancedAnalytics} privatePublishing={privatePublishing} />
       </ReactFlowProvider>
     </EditorProvider>
   );

@@ -9,7 +9,8 @@ import { Screen, Section } from '@/components/ui/screen';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Text } from '@/components/ui/text';
 import { orpc } from '@/lib/api';
-import { downloadStory, removeOffline, useIsOffline } from '@/lib/offline';
+import { downloadStory, removeOffline, useIsOffline, useOfflineQuota } from '@/lib/offline';
+import { useSession } from '@/lib/session';
 import { useTheme } from '@/theme/theme';
 
 function Fact({ label, value }: { label: string; value: string }) {
@@ -30,6 +31,9 @@ export default function StoryScreen() {
   const story = useQuery(orpc.catalog.story.queryOptions({ input: { slug } }));
   const offline = useIsOffline(slug);
   const download = useMutation({ mutationFn: () => downloadStory(slug) });
+  const { user } = useSession();
+  const me = useQuery({ ...orpc.account.me.queryOptions(), enabled: user !== null });
+  const quota = useOfflineQuota(me.data?.subscription.plan ?? 'wanderer');
 
   if (story.isPending) {
     return (
@@ -108,10 +112,16 @@ export default function StoryScreen() {
               variant="secondary"
               icon={offline ? Check : Download}
               loading={download.isPending}
+              disabled={!offline && quota.full}
               label={offline ? t('mobile.removeDownload') : t('mobile.download')}
               accessibilityHint={offline ? t('mobile.downloaded') : undefined}
               onPress={() => (offline ? removeOffline(data.slug) : download.mutate())}
             />
+            {!offline && quota.full ? (
+              <Text variant="caption" tone="muted">
+                {t('mobile.offlineLimit', { count: quota.limit })}
+              </Text>
+            ) : null}
           </View>
         ) : (
           <View

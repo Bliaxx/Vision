@@ -246,24 +246,34 @@ export default async function AnalyticsPage({
           </ul>
         </section>
 
-        <section className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-6">
-          <h2 className="font-display text-2xl font-semibold">{t('funnelTitle')}</h2>
-          <ol className="flex flex-col gap-3">
-            {topPassages.map((entry) => (
-              <li key={entry.passageId} className="flex flex-col gap-1.5">
-                <span className="flex items-center justify-between gap-2 text-sm">
-                  <span className="truncate font-semibold">
-                    {titles[entry.passageId] ?? entry.passageId}
+        {analytics.advanced ? (
+          <section className="flex flex-col gap-4 rounded-xl border border-line bg-surface p-6">
+            <h2 className="font-display text-2xl font-semibold">{t('funnelTitle')}</h2>
+            <ol className="flex flex-col gap-3">
+              {topPassages.map((entry) => (
+                <li key={entry.passageId} className="flex flex-col gap-1.5">
+                  <span className="flex items-center justify-between gap-2 text-sm">
+                    <span className="truncate font-semibold">
+                      {titles[entry.passageId] ?? entry.passageId}
+                    </span>
+                    <span className="shrink-0 text-xs text-muted">
+                      {t('visits', { count: entry.visits })}
+                    </span>
                   </span>
-                  <span className="shrink-0 text-xs text-muted">
-                    {t('visits', { count: entry.visits })}
-                  </span>
-                </span>
-                <Bar ratio={entry.visits / maxVisits} />
-              </li>
-            ))}
-          </ol>
-        </section>
+                  <Bar ratio={entry.visits / maxVisits} />
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : (
+          <section className="paper-grain flex flex-col items-start justify-center gap-3 rounded-xl border border-dashed border-brass/50 bg-brass-soft/30 p-6">
+            <h2 className="font-display text-2xl font-semibold">{t('advancedTitle')}</h2>
+            <p className="text-muted">{t('advancedBody')}</p>
+            <Button asChild variant="brass" size="sm">
+              <Link href="/pricing">{t('advancedCta')}</Link>
+            </Button>
+          </section>
+        )}
       </div>
 
       {contested.length > 0 ? (
@@ -298,7 +308,13 @@ export default async function AnalyticsPage({
       <section className="paper-grain flex flex-col items-start gap-3 rounded-xl border border-brass/40 bg-brass-soft/40 p-6">
         <h2 className="font-display text-2xl font-semibold">{t('export')}</h2>
         <p className="max-w-2xl text-muted">{t('exportHint')}</p>
-        <GamebookExport storyId={id} slug={draft.slug} />
+        {me?.entitlements.includes('print_export') ? (
+          <GamebookExport storyId={id} slug={draft.slug} />
+        ) : (
+          <Button asChild variant="brass" size="sm">
+            <Link href="/pricing">{t('advancedCta')}</Link>
+          </Button>
+        )}
       </section>
     </Container>
   );

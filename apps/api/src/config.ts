@@ -34,7 +34,6 @@ const EnvSchema = z.object({
    * prestataire de paiement simulé sur un build de production.
    */
   DEMO_MODE: booleanish.default(false),
-  RATE_LIMIT_PER_MINUTE: z.coerce.number().int().default(120),
 });
 
 export type Env = z.infer<typeof EnvSchema>;

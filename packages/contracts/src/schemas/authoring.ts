@@ -131,6 +131,8 @@ export const ImportOutputSchema = z.object({
 export const GamebookOutputSchema = z.object({ markdown: z.string(), sections: z.number().int() });
 
 export const StoryAnalyticsSchema = z.object({
+  /** Statistiques avancées (carte de chaleur, analyse des choix) : offre Architecte. */
+  advanced: z.boolean(),
   readers: z.number().int(),
   starts: z.number().int(),
   completions: z.number().int(),

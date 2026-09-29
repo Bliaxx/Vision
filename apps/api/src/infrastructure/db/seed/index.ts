@@ -243,32 +243,44 @@ export async function seed(options: { reset: boolean }) {
       .where(eq(stories.id, id));
     published.set(sample.slug, { id, story: document });
 
-    // Parties simulées → statistiques communautaires réalistes.
+    // Parties simulées → statistiques communautaires réalistes, étalées sur
+    // 30 jours (audience croissante, pic le week-end) pour des courbes crédibles.
     const compiled = compileStory(document);
     const plays = [260, 180, 140, 120, 60][index] ?? 50;
-    const increments: StatIncrements = {
-      starts: 0,
-      completions: 0,
-      passages: new Map(),
-      choices: new Map(),
-      endings: new Map(),
-    };
-    for (let play = 0; play < plays; play++) {
-      const { events } = randomPlaythrough(compiled, play + 1);
-      increments.starts++;
-      for (const passage of events.passages)
-        increments.passages.set(passage, (increments.passages.get(passage) ?? 0) + 1);
-      for (const [passageId, choiceId] of events.choices) {
-        const key = `${passageId}/${choiceId}`;
-        const current = increments.choices.get(key);
-        increments.choices.set(key, { passageId, choiceId, count: (current?.count ?? 0) + 1 });
+    const weights = Array.from({ length: 30 }, (_, daysAgo) => {
+      const date = new Date(Date.now() - daysAgo * 86_400_000);
+      const weekend = date.getUTCDay() === 0 || date.getUTCDay() === 6 ? 1.4 : 1;
+      return (1 + (29 - daysAgo) / 12) * weekend;
+    });
+    const total = weights.reduce((sum, weight) => sum + weight, 0);
+    let seedIndex = 0;
+    for (const [daysAgo, weight] of weights.entries()) {
+      const increments: StatIncrements = {
+        starts: 0,
+        completions: 0,
+        passages: new Map(),
+        choices: new Map(),
+        endings: new Map(),
+      };
+      const count = Math.round((plays * weight) / total);
+      for (let play = 0; play < count; play++) {
+        const { events } = randomPlaythrough(compiled, ++seedIndex);
+        increments.starts++;
+        for (const passage of events.passages)
+          increments.passages.set(passage, (increments.passages.get(passage) ?? 0) + 1);
+        for (const [passageId, choiceId] of events.choices) {
+          const key = `${passageId}/${choiceId}`;
+          const current = increments.choices.get(key);
+          increments.choices.set(key, { passageId, choiceId, count: (current?.count ?? 0) + 1 });
+        }
+        if (events.ending) {
+          increments.completions++;
+          increments.endings.set(events.ending, (increments.endings.get(events.ending) ?? 0) + 1);
+        }
       }
-      if (events.ending) {
-        increments.completions++;
-        increments.endings.set(events.ending, (increments.endings.get(events.ending) ?? 0) + 1);
-      }
+      if (count > 0)
+        await reading.applyStats(id, increments, new Date(Date.now() - daysAgo * 86_400_000));
     }
-    await reading.applyStats(id, increments);
   }
 
   // --- Avis ------------------------------------------------------------------------

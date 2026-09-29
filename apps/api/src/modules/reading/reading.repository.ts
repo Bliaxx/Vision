@@ -93,8 +93,9 @@ export class ReadingRepository {
   }
 
   /** Applique un lot d'incréments de statistiques dans une seule transaction. */
-  async applyStats(storyId: string, increments: StatIncrements): Promise<void> {
-    const day = new Date().toISOString().slice(0, 10);
+  /** Agrège des statistiques anonymes ; `at` situe le lot dans l'historique quotidien. */
+  async applyStats(storyId: string, increments: StatIncrements, at = new Date()): Promise<void> {
+    const day = at.toISOString().slice(0, 10);
     await this.db.transaction(async (tx) => {
       if (increments.starts > 0 || increments.completions > 0) {
         await tx

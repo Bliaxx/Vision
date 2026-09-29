@@ -239,7 +239,11 @@ export class AuthoringService {
 
   async analytics(viewer: Viewer, id: string): Promise<StoryAnalytics> {
     const story = await this.owned(viewer, id);
-    return this.queries.analytics(id, story.draft);
+    const analytics = await this.queries.analytics(id, story.draft);
+    // Indicateurs de base pour tous les auteurs ; le détail par passage et par choix
+    // (carte de chaleur, choix disputés) fait partie de l'offre Architecte.
+    if (viewer.entitlements.has('author_analytics')) return { ...analytics, advanced: true };
+    return { ...analytics, advanced: false, passages: [], choices: [] };
   }
 
   async feedback(viewer: Viewer, id: string): Promise<Feedback[]> {

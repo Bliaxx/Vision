@@ -1,4 +1,9 @@
-import { type ReadingPackage, ReadingPackageSchema } from '@dedale/contracts';
+import {
+  PLAN_CATALOG,
+  type Plan,
+  type ReadingPackage,
+  ReadingPackageSchema,
+} from '@dedale/contracts';
 import { useSyncExternalStore } from 'react';
 import { api } from './api';
 import { kv } from './kv';
@@ -71,4 +76,11 @@ export function useOfflineLibrary(): readonly OfflineEntry[] {
 
 export function useIsOffline(slug: string): boolean {
   return useOfflineLibrary().some((entry) => entry.slug === slug);
+}
+
+/** Emplacements hors ligne de l'offre (3 en gratuit, illimités avec Explorateur). */
+export function useOfflineQuota(plan: Plan) {
+  const used = useOfflineLibrary().length;
+  const limit = PLAN_CATALOG[plan].offlineSlots;
+  return { used, limit, full: used >= limit };
 }

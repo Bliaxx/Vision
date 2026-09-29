@@ -652,7 +652,8 @@
       "quantity": "Quantity",
       "moveUp": "Move up",
       "moveDown": "Move down",
-      "removeChoice": "Delete choice"
+      "removeChoice": "Delete choice",
+      "heatmapLocked": "Heatmap: Architect plan"
     },
     "meta": {
       "title": "Book details",
@@ -680,7 +681,8 @@
       "unlisted": "Private (link only)",
       "blocked": "Fix the blocking errors before publishing.",
       "success": "Edition {number} published!",
-      "viewStory": "View story page"
+      "viewStory": "View story page",
+      "architectOnly": "Architect plan"
     },
     "analyticsPage": {
       "title": "Analytics",
@@ -709,7 +711,10 @@
       "notPublished": "Publish a first edition to see your statistics.",
       "visits": "{count, plural, one {# visit} other {# visits}}",
       "download": "Download (.md)",
-      "exported": "{count} sections exported"
+      "exported": "{count} sections exported",
+      "advancedTitle": "Advanced analytics",
+      "advancedBody": "Most visited passages, contested choices and the reader heatmap in the editor: included in the Architect plan.",
+      "advancedCta": "Discover the Architect plan"
     },
     "genre": "Genre"
   },
@@ -803,6 +808,7 @@
     "continueReading": "Continue reading",
     "readNow": "Read",
     "chapterProgress": "{count, plural, one {# passage read} other {# passages read}}",
-    "sheetClose": "Close"
+    "sheetClose": "Close",
+    "offlineLimit": "The free plan keeps {count, plural, one {# book} other {# books}} offline. Remove one, or upgrade to Explorer."
   }
 }

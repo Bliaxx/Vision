@@ -3,6 +3,7 @@
 import type { EndingKind, Story } from '@dedale/engine';
 import { RotateCcw, Undo2 } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { Monogram } from '../brand/monogram';
 import { EndingIcon } from '../story/badges';
 
 /** Fin atteinte : le type de fin, la collection de fins et l'invitation à rejouer. */
@@ -30,6 +31,8 @@ export function EndingScreen({
       className="flex animate-rise flex-col items-center gap-6 border-t border-[var(--dd-reader-rule)] pt-10 text-center font-sans"
       aria-live="polite"
     >
+      {/* Le fil rejoint le cœur du labyrinthe : le seul tracé animé de la liseuse. */}
+      <Monogram size={56} animated className="text-[var(--dd-reader-text)]" title="" aria-hidden />
       <div className="flex flex-col items-center gap-2">
         <span className="inline-flex items-center gap-2 text-xs font-bold tracking-[0.16em] text-[var(--dd-reader-accent)] uppercase">
           <EndingIcon kind={ending.kind} />{' '}

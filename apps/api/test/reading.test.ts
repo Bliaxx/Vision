@@ -127,5 +127,8 @@ describe('lecture', () => {
     const analytics = await author.get(`/api/v1/studio/stories/${story.id}/analytics`);
     expect(analytics.body.starts).toBe(1);
     expect(analytics.body.daily).toHaveLength(30);
+    // Offre gratuite : indicateurs de base seulement.
+    expect(analytics.body.advanced).toBe(false);
+    expect(analytics.body.passages).toEqual([]);
   });
 });

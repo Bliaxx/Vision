@@ -1,11 +1,11 @@
+import { renderHook } from '@testing-library/react-native';
 import Storage from 'expo-sqlite/kv-store';
+import { readOffline, removeOffline, saveOffline, useOfflineQuota } from '@/lib/offline';
 import { readLocalSave, writeLocalSave } from '@/lib/saves';
 import { resetStorage, samplePackage } from './helpers';
 
+// Le module réseau est simulé (jest.mock est remonté avant les imports).
 jest.mock('@/lib/api', () => ({ api: { reading: { open: jest.fn() } } }));
-
-const { readOffline, removeOffline, saveOffline } =
-  jest.requireActual<typeof import('@/lib/offline')>('@/lib/offline');
 
 beforeEach(() => resetStorage());
 
@@ -25,6 +25,16 @@ describe('bibliothèque hors ligne', () => {
     expect(readOffline('casse')).toBeNull();
     Storage.setItemSync('offline:ancien', JSON.stringify({ slug: 'ancien', format: 0 }));
     expect(readOffline('ancien')).toBeNull();
+  });
+});
+
+describe('quota hors ligne', () => {
+  it("limite l'offre gratuite à 3 livres, sans limite pour Explorateur", async () => {
+    for (const slug of ['a', 'b', 'c']) saveOffline({ ...samplePackage(), slug });
+    const free = await renderHook(() => useOfflineQuota('wanderer'));
+    expect(free.result.current).toMatchObject({ used: 3, limit: 3, full: true });
+    const explorer = await renderHook(() => useOfflineQuota('explorer'));
+    expect(explorer.result.current.full).toBe(false);
   });
 });
 

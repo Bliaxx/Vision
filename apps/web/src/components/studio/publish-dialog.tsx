@@ -26,10 +26,12 @@ export function PublishDialog({
   open,
   onOpenChange,
   flush,
+  privatePublishing,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   flush: () => Promise<boolean>;
+  privatePublishing: boolean;
 }) {
   const t = useTranslations('studio.publishDialog');
   const tc = useTranslations('common');
@@ -41,7 +43,7 @@ export function PublishDialog({
   const setStatus = useEditor((state) => state.setStatus);
   const [changelog, setChangelog] = useState('');
   const [visibility, setVisibility] = useState<Visibility>(
-    status === 'unlisted' ? 'unlisted' : 'public',
+    status === 'unlisted' && privatePublishing ? 'unlisted' : 'public',
   );
   const [serverReport, setServerReport] = useState<AnalysisSummary | null>(null);
   const [published, setPublished] = useState<number | null>(null);
@@ -138,10 +140,14 @@ export function PublishDialog({
                     name={`${id}-visibility`}
                     value={option}
                     checked={visibility === option}
+                    disabled={option === 'unlisted' && !privatePublishing}
                     onChange={() => setVisibility(option)}
                     className="accent-[var(--dd-accent)]"
                   />
                   {t(option)}
+                  {option === 'unlisted' && !privatePublishing ? (
+                    <span className="text-xs text-subtle">— {t('architectOnly')}</span>
+                  ) : null}
                 </label>
               ))}
             </fieldset>

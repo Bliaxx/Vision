@@ -16,7 +16,8 @@ import {
 export class AuthoringQueries {
   constructor(private readonly db: Database) {}
 
-  async analytics(storyId: string, document: Story): Promise<StoryAnalytics> {
+  /** Toutes les statistiques ; le service décide de ce que l'offre de l'auteur permet de voir. */
+  async analytics(storyId: string, document: Story): Promise<Omit<StoryAnalytics, 'advanced'>> {
     const since = new Date(Date.now() - 29 * 24 * 3600 * 1000).toISOString().slice(0, 10);
     const [[story], passages, choices, endings, daily] = await Promise.all([
       this.db

@@ -652,7 +652,8 @@
       "quantity": "Quantité",
       "moveUp": "Monter",
       "moveDown": "Descendre",
-      "removeChoice": "Supprimer le choix"
+      "removeChoice": "Supprimer le choix",
+      "heatmapLocked": "Carte de chaleur : offre Architecte"
     },
     "meta": {
       "title": "Fiche du livre",
@@ -680,7 +681,8 @@
       "unlisted": "Privée (lien uniquement)",
       "blocked": "Corrigez les erreurs bloquantes avant de publier.",
       "success": "Édition {number} publiée !",
-      "viewStory": "Voir la fiche"
+      "viewStory": "Voir la fiche",
+      "architectOnly": "offre Architecte"
     },
     "analyticsPage": {
       "title": "Statistiques",
@@ -709,7 +711,10 @@
       "notPublished": "Publiez une première édition pour voir vos statistiques.",
       "visits": "{count, plural, one {# visite} other {# visites}}",
       "download": "Télécharger (.md)",
-      "exported": "{count} paragraphes exportés"
+      "exported": "{count} paragraphes exportés",
+      "advancedTitle": "Statistiques avancées",
+      "advancedBody": "Passages les plus visités, choix disputés et carte de chaleur des lecteurs dans l'éditeur : inclus dans l'offre Architecte.",
+      "advancedCta": "Découvrir l'offre Architecte"
     },
     "genre": "Genre"
   },
@@ -803,6 +808,7 @@
     "continueReading": "Reprendre la lecture",
     "readNow": "Lire",
     "chapterProgress": "{count, plural, one {# passage lu} other {# passages lus}}",
-    "sheetClose": "Fermer"
+    "sheetClose": "Fermer",
+    "offlineLimit": "L'offre gratuite garde {count, plural, one {# livre} other {# livres}} hors ligne. Retirez-en un, ou passez à l'offre Explorateur."
   }
 }
